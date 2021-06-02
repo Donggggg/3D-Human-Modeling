@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F57EC87D2667271B00749EAB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F57EC87C2667271B00749EAB /* main.cpp */; };
+		F57EC8852667274700749EAB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57EC8842667274700749EAB /* OpenGL.framework */; };
+		F57EC8872667274C00749EAB /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F57EC8862667274C00749EAB /* GLUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		F57EC8792667271B00749EAB /* 3DVirtualHumanModeling */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = 3DVirtualHumanModeling; sourceTree = BUILT_PRODUCTS_DIR; };
 		F57EC87C2667271B00749EAB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F57EC8842667274700749EAB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		F57EC8862667274C00749EAB /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F57EC8872667274C00749EAB /* GLUT.framework in Frameworks */,
+				F57EC8852667274700749EAB /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +49,7 @@
 			children = (
 				F57EC87B2667271B00749EAB /* 3DVirtualHumanModeling */,
 				F57EC87A2667271B00749EAB /* Products */,
+				F57EC8832667274700749EAB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +67,15 @@
 				F57EC87C2667271B00749EAB /* main.cpp */,
 			);
 			path = 3DVirtualHumanModeling;
+			sourceTree = "<group>";
+		};
+		F57EC8832667274700749EAB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F57EC8862667274C00749EAB /* GLUT.framework */,
+				F57EC8842667274700749EAB /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

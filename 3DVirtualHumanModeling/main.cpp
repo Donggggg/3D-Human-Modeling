@@ -1,14 +1,25 @@
-//
-//  main.cpp
-//  3DVirtualHumanModeling
-//
-//  Created by 김동규 on 2021/06/02.
-//
-
 #include <iostream>
+#include <OpenGL/OpenGL.h>
+#include <GLUT/GLUT.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+void myDisplay()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_POLYGON);
+    glVertex3f(-0.5, -0.5, 0.0);
+    glVertex3f(0.5, -0.5, 0.0);
+    glVertex3f(0.5, 0.5, 0.0);
+    glVertex3f(-0.5, 0.5, 0.0);
+    glEnd();
+    glFlush();
+    
+}
+
+int main(int argc, char* argv[])
+{
+    glutInit(&argc, argv);
+    glutCreateWindow("Test");
+    glutDisplayFunc(myDisplay);
+    glutMainLoop();
     return 0;
 }
