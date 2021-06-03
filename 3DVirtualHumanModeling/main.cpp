@@ -14,7 +14,10 @@
 #define CAMERA_FAR 1000
 
 GLUquadricObj  *qobj;
-GLfloat brown_color[3] = {0.53, 0.36, 0.29};
+GLfloat brown[3] = {0.53, 0.36, 0.29};
+GLfloat deep_brown[3] = {0.26, 0.24, 0.22};
+GLfloat grey[3] = {0.83, 0.84, 0.85};
+GLfloat black[3] = {0.0, 0.0, 0.0};
 int ViewX = 0, ViewY = 0;
 int previousX, previousY;
 float XAxis = 0.0, ZAxis = 0.0;
@@ -56,6 +59,51 @@ void drawHead()
     gluSphere(qobj, 50, 20, 20);
 }
 
+void drawEar()
+{
+    qobj = gluNewQuadric();
+    gluQuadricDrawStyle(qobj, TEXTURE);
+
+    gluSphere(qobj, 18, 10, 10);
+}
+
+void drawEarCycle()
+{
+    qobj = gluNewQuadric();
+    gluQuadricDrawStyle(qobj, TEXTURE);
+
+    gluSphere(qobj, 14, 10, 10);
+}
+
+void drawEye()
+{
+    qobj = gluNewQuadric();
+
+    gluQuadricDrawStyle(qobj, TEXTURE);
+    gluSphere(qobj, 5, 20, 20);
+}
+
+void drawMouth()
+{
+    qobj = gluNewQuadric();
+
+    gluQuadricDrawStyle(qobj, TEXTURE);
+    gluSphere(qobj, 10, 20, 20);
+}
+
+void drawLip()
+{
+    glutSolidCube(10);
+}
+
+void drawNose()
+{
+    qobj = gluNewQuadric();
+
+    gluQuadricDrawStyle(qobj, TEXTURE);
+    gluSphere(qobj, 3, 20, 20);
+}
+
 void drawBody()
 {
     qobj = gluNewQuadric();
@@ -72,12 +120,12 @@ void drawHip()
     gluSphere(qobj, 50, 10, 10);
 }
 
-void drawEar()
+void drawTail()
 {
     qobj = gluNewQuadric();
     gluQuadricDrawStyle(qobj, TEXTURE);
 
-    gluSphere(qobj, 18, 10, 10);
+    gluSphere(qobj, 10, 10, 10);
 }
 
 void drawArm()
@@ -117,13 +165,85 @@ void renderBrown(void)
     glClear(GL_COLOR_BUFFER_BIT |GL_DEPTH_BUFFER_BIT);
     updateCameraPosition();
     
+    // 눈 그리기
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-100, 0.0, 1.0, 0.0);
+    glTranslated(68, STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(0.5, 1.5, 1.5);
+    drawEye();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-80, 0.0, 1.0, 0.0);
+    glTranslated(68, STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(0.5, 1.5, 1.5);
+    drawEye();
+    glPopMatrix();
+    
+    // 코 그리기
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-90, 0.0, 1.0, 0.0);
+    glRotatef(-10, 0.0, 0.0, 1.0);
+    glTranslated(56,  -5+STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(0.5, 1.5, 1.5);
+    drawNose();
+    glPopMatrix();
+    
+    // 입 그리기
+    glPushMatrix();
+    glColor3fv(grey);
+    glRotatef(-90, 0.0, 1.0, 0.0);
+    glRotatef(-20, 0.0, 0.0, 1.0);
+    glTranslated(25, -5+STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.5, 1.8, 2);
+    drawMouth();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-90, 0.0, 1.0, 0.0);
+    glRotatef(-18.5, 0.0, 0.0, 1.0);
+    glTranslated(37.8, -5+STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.4, 1.0);
+    drawLip();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-92.5f, 0.0, 1.0, 0.0);
+    glRotatef(-25, 0.0, 0.0, 1.0);
+    glTranslated(28, -5+STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glRotatef(-45, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.4, 1.0);
+    drawLip();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glColor3fv(black);
+    glRotatef(-87.5f, 0.0, 1.0, 0.0);
+    glRotatef(-25, 0.0, 0.0, 1.0);
+    glTranslated(28, -5+STANDARD, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glRotatef(45, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.4, 1.0);
+    drawLip();
+    glPopMatrix();
+    
     // 머리 그리기
     glPushMatrix();
-    glRotatef(90, 0.0, 1.0, 0.0);
-    glColor3fv(brown_color);
+    glColor3fv(brown);
     glTranslated(0, STANDARD, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
-    glScalef(1.5, 1.5, 1.35);
+    glScalef(1.5, 1.40, 1.35);
     drawHead();
     glPopMatrix();
     
@@ -131,6 +251,7 @@ void renderBrown(void)
     glPushMatrix();
     glTranslated(-50, 50 + STANDARD, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.8, 1.0);
     drawEar();
     glPopMatrix();
     
@@ -138,13 +259,32 @@ void renderBrown(void)
     glPushMatrix();
     glTranslated(50, 50 + STANDARD, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.8, 1.0);
     drawEar();
+    glPopMatrix();
+    
+    // 귀 내부 그리기
+    glPushMatrix();
+    glColor3fv(deep_brown);
+    glTranslated(50, 50 + STANDARD, 6.5);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.75, 1.0);
+    drawEarCycle();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslated(-50, 50 + STANDARD, 6.5);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.75, 1.0);
+    drawEarCycle();
     glPopMatrix();
     
     // 몸통 그리기
     glPushMatrix();
+    glColor3fv(brown);
     glTranslated(0, -50 + STANDARD, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1, 0.8, 1);
     drawBody();
     glPopMatrix();
     
@@ -152,8 +292,15 @@ void renderBrown(void)
     glPushMatrix();
     glTranslated(0, 70 - STANDARD, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
-    glScalef(1, 1, 0.4);
+    glScalef(1, 0.8, 0.4);
     drawHip();
+    glPopMatrix();
+    
+    // 꼬리 그리기
+    glPushMatrix();
+    glTranslated(0, 80-STANDARD, -45.5);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    drawTail();
     glPopMatrix();
     
     // 왼팔 그리기
