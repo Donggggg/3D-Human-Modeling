@@ -5,29 +5,28 @@
 #include <GLUT/glut.h>
 #include <cmath>
 #include <cctype>
-#define STANDARD 100
 #define TEXTURE GLU_FILL
-#define PI 3.141592
 #define WINDOW_WIDTH 700
 #define WINDOW_HEIGHT 700
 #define CAMERA_NEAR 1
 #define CAMERA_FAR 1000
+#define PI 3.141592
 
+// Mesh 생성용 포인터 변수
 GLUquadricObj  *qobj;
+// 색상 코드 배열
 GLfloat brown[3] = {0.53, 0.36, 0.29};
 GLfloat deep_brown[3] = {0.26, 0.24, 0.22};
 GLfloat grey[3] = {0.83, 0.84, 0.85};
 GLfloat black[3] = {0.0, 0.0, 0.0};
-int ViewX = 0, ViewY = 0;
-int previousX, previousY;
-float XAxis = 0.0, ZAxis = 0.0;
-float *xRotation, *zRotation, *yRotation;
+
+// 마우스 & 키보드 인터랙션 변수
+int preX, preY;
 float cameraX, cameraY, cameraZ;
-float lightX, lightY, lightZ;
-float cameraRadius = 600.0f;
-float alpha = 0.0f, theta = 0.0f;
+float cameraRadius = 600.0;
+float alpha = 0.0, theta = 0.0;
 float fieldOfVision, aspect;
-bool firstClick = true;
+bool isStart = true;
 
 void updateCameraPosition()
 {
@@ -39,6 +38,7 @@ void updateCameraPosition()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    // 관측자 위치 세팅
     cameraX = sin(alpha) * cos(theta) * cameraRadius;
     cameraY = sin(theta) * cameraRadius;
     cameraZ = cos(alpha) * cos(theta) * cameraRadius;
@@ -117,7 +117,7 @@ void drawHip()
     qobj = gluNewQuadric();
     gluQuadricDrawStyle(qobj, TEXTURE);
 
-    gluSphere(qobj, 50, 10, 10);
+    gluSphere(qobj, 50, 20, 20);
 }
 
 void drawTail()
@@ -149,7 +149,7 @@ void drawLeg()
     qobj = gluNewQuadric();
 
     gluQuadricDrawStyle(qobj, TEXTURE);
-    gluCylinder(qobj, 22, 22, 60, 10, 10);
+    gluCylinder(qobj, 22, 21, 58, 20, 20);
 }
 
 void drawFoot()
@@ -160,25 +160,34 @@ void drawFoot()
     gluSphere(qobj, 18, 20, 20);
 }
 
+void drawSun()
+{
+    qobj = gluNewQuadric();
+    gluQuadricDrawStyle(qobj, TEXTURE);
+
+    gluSphere(qobj, 40, 20, 20);
+}
+
 void renderBrown(void)
 {
-    glClear(GL_COLOR_BUFFER_BIT |GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     updateCameraPosition();
     
-    // 눈 그리기
+    // 오른쪽 눈 그리기
     glPushMatrix();
     glColor3fv(black);
     glRotatef(-100, 0.0, 1.0, 0.0);
-    glTranslated(68, STANDARD, 0);
+    glTranslated(68, 100, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(0.5, 1.5, 1.5);
     drawEye();
     glPopMatrix();
     
+    // 왼쪽 눈 그리기
     glPushMatrix();
     glColor3fv(black);
     glRotatef(-80, 0.0, 1.0, 0.0);
-    glTranslated(68, STANDARD, 0);
+    glTranslated(68, 100, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(0.5, 1.5, 1.5);
     drawEye();
@@ -189,7 +198,7 @@ void renderBrown(void)
     glColor3fv(black);
     glRotatef(-90, 0.0, 1.0, 0.0);
     glRotatef(-10, 0.0, 0.0, 1.0);
-    glTranslated(56,  -5+STANDARD, 0);
+    glTranslated(56, 95, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(0.5, 1.5, 1.5);
     drawNose();
@@ -200,7 +209,7 @@ void renderBrown(void)
     glColor3fv(grey);
     glRotatef(-90, 0.0, 1.0, 0.0);
     glRotatef(-20, 0.0, 0.0, 1.0);
-    glTranslated(25, -5+STANDARD, 0);
+    glTranslated(25, 95, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.5, 1.8, 2);
     drawMouth();
@@ -210,7 +219,7 @@ void renderBrown(void)
     glColor3fv(black);
     glRotatef(-90, 0.0, 1.0, 0.0);
     glRotatef(-18.5, 0.0, 0.0, 1.0);
-    glTranslated(37.8, -5+STANDARD, 0);
+    glTranslated(37.8, 95, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.4, 1.0);
     drawLip();
@@ -220,7 +229,7 @@ void renderBrown(void)
     glColor3fv(black);
     glRotatef(-92.5f, 0.0, 1.0, 0.0);
     glRotatef(-25, 0.0, 0.0, 1.0);
-    glTranslated(28, -5+STANDARD, 0);
+    glTranslated(28, 95, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glRotatef(-45, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.4, 1.0);
@@ -231,7 +240,7 @@ void renderBrown(void)
     glColor3fv(black);
     glRotatef(-87.5f, 0.0, 1.0, 0.0);
     glRotatef(-25, 0.0, 0.0, 1.0);
-    glTranslated(28, -5+STANDARD, 0);
+    glTranslated(28, 95, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glRotatef(45, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.4, 1.0);
@@ -241,39 +250,40 @@ void renderBrown(void)
     // 머리 그리기
     glPushMatrix();
     glColor3fv(brown);
-    glTranslated(0, STANDARD, 0);
+    glTranslated(0, 100, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.5, 1.40, 1.35);
     drawHead();
     glPopMatrix();
     
-    // 왼쪽 귀 그리기
-    glPushMatrix();
-    glTranslated(-50, 50 + STANDARD, 0);
-    glRotatef(90, 1.0, 0.0, 0.0);
-    glScalef(1.0, 0.8, 1.0);
-    drawEar();
-    glPopMatrix();
-    
     // 오른쪽 귀 그리기
     glPushMatrix();
-    glTranslated(50, 50 + STANDARD, 0);
+    glTranslated(-50, 150, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.8, 1.0);
     drawEar();
     glPopMatrix();
     
-    // 귀 내부 그리기
+    // 왼쪽 귀 그리기
+    glPushMatrix();
+    glTranslated(50, 150, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    glScalef(1.0, 0.8, 1.0);
+    drawEar();
+    glPopMatrix();
+    
+    // 오른쪽 귀 내부 그리기
     glPushMatrix();
     glColor3fv(deep_brown);
-    glTranslated(50, 50 + STANDARD, 6.5);
+    glTranslated(50, 150, 6.5);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.75, 1.0);
     drawEarCycle();
     glPopMatrix();
     
+    // 왼쪽 귀 내부 그리기
     glPushMatrix();
-    glTranslated(-50, 50 + STANDARD, 6.5);
+    glTranslated(-50, 150, 6.5);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1.0, 0.75, 1.0);
     drawEarCycle();
@@ -282,7 +292,7 @@ void renderBrown(void)
     // 몸통 그리기
     glPushMatrix();
     glColor3fv(brown);
-    glTranslated(0, -50 + STANDARD, 0);
+    glTranslated(0, 50, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1, 0.8, 1);
     drawBody();
@@ -290,7 +300,7 @@ void renderBrown(void)
     
     // 엉덩이 그리기
     glPushMatrix();
-    glTranslated(0, 70 - STANDARD, 0);
+    glTranslated(0, -30, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glScalef(1, 0.8, 0.4);
     drawHip();
@@ -298,67 +308,67 @@ void renderBrown(void)
     
     // 꼬리 그리기
     glPushMatrix();
-    glTranslated(0, 80-STANDARD, -45.5);
+    glTranslated(0, -20, -45.5);
     glRotatef(90, 1.0, 0.0, 0.0);
     drawTail();
     glPopMatrix();
     
-    // 왼팔 그리기
+    // 오른팔 그리기
     glPushMatrix();
-    glTranslated(-30, 160 - STANDARD, 0);
+    glTranslated(-30, 60, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glRotatef(-30, 0.0, 1.0, 1.0);
     drawArm();
     glPopMatrix();
     
-    // 오른팔 그리기
+    // 왼팔 그리기
     glPushMatrix();
-    glTranslated(30, 160 - STANDARD, 0);
+    glTranslated(30, 60, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     glRotatef(30, 0.0, 1.0, 1.0);
     drawArm();
     glPopMatrix();
     
-    // 왼손 그리기
-    glPushMatrix();
-    glRotatef(-5, 0.0, 0.0, 1.0);
-    glTranslated(-55, 90 - STANDARD, 5);
-    drawHand();
-    glPopMatrix();
-    
     // 오른손 그리기
     glPushMatrix();
-    glRotatef(5, 0.0, 0.0, 1.0);
-    glTranslated(55, 90 - STANDARD, 5);
+    glRotatef(-5, 0.0, 0.0, 1.0);
+    glTranslated(-55, -10, 5);
     drawHand();
     glPopMatrix();
     
-    // 왼다리 그리기
+    // 왼손 그리기
     glPushMatrix();
-    glTranslated(-24, 70 - STANDARD, 0);
-    glRotatef(90, 1.0, 0.0, 0.0);
-    drawLeg();
+    glRotatef(5, 0.0, 0.0, 1.0);
+    glTranslated(55, -10, 5);
+    drawHand();
     glPopMatrix();
     
     // 오른다리 그리기
     glPushMatrix();
-    glTranslated(24, 70 - STANDARD, 0);
+    glTranslated(-24, -30, 0);
+    glRotatef(90, 1.0, 0.0, 0.0);
+    drawLeg();
+    glPopMatrix();
+    
+    // 왼다리 그리기
+    glPushMatrix();
+    glTranslated(24, -30, 0);
     glRotatef(90, 1.0, 0.0, 0.0);
     drawLeg();
     glPopMatrix();
     
     // 오른발 그리기
     glPushMatrix();
-    glTranslated(-30, 15 - STANDARD, 5);
-    glScalef(1.5, 1, 1.5);
+    glTranslated(-30, -88,5);
+    glScalef(1.55, 1, 1.55);
     glRotatef(-45, 0.0, 1.0, 0.0);
     drawFoot();
     glPopMatrix();
     
     // 왼발 그리기
     glPushMatrix();
-    glTranslated(30, 15 - STANDARD, 5);
-    glScalef(1.5, 1, 1.5);
+    glTranslated(30, -88,5);
+    glScalef(1.55, 1, 1.55);
     glRotatef(45, 0.0, 1.0, 0.0);
     drawFoot();
     glPopMatrix();
@@ -369,19 +379,19 @@ void renderBrown(void)
 
 void keyPressed(unsigned char key, int x, int y)
 {
+    // 키 입력
     key = tolower(key);
     
-    if(xRotation != NULL && yRotation != NULL && zRotation != NULL) {
-        switch(key) {
-            case 'a':
-                cameraRadius -= 10.0f;
-                break;
-            case 'z':
-                cameraRadius += 10.0f;
-                break;
-        }
-        glutPostRedisplay();
+    switch(key) {
+        case 'a': // 줌 인
+            cameraRadius -= 10.0f;
+            break;
+        case 'z': // 줌 아웃
+            cameraRadius += 10.0f;
+            break;
     }
+    
+    glutPostRedisplay(); // rerender
 }
 
 void initializeLighting() {
@@ -391,7 +401,7 @@ void initializeLighting() {
     GLfloat lightSpecular[4] = {0.4, 0.4, 0.4, 1.0};
     GLfloat lightpos[] = {-600.0, 600.0, 0.0, 1.0};
 
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    glClearColor(0.7f, 0.71f, 0.6f, 0.0f);
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lightAmbient);
     glShadeModel(GL_SMOOTH);
     
@@ -407,32 +417,23 @@ void initializeLighting() {
     fieldOfVision = 45.0;
 }
 
-void resizeWindow(GLsizei w, GLsizei h)
-{
-    if (h == 0) h = 1;
-
-    glViewport(0, 0, w, h);
-    aspect = (GLfloat)w / (GLfloat)h;
-    updateCameraPosition();
-}
-
 void mouseMoved(int x, int y)
 {
-    if(firstClick) {
-        previousX = x;
-        previousY = y;
-        firstClick = false;
+    if(isStart) { // 첫 클릭 시 이동하지 않고 기준점 저장
+        preX = x;
+        preY = y;
+        isStart = false;
     }
     else {
-        if(x > previousX)
-            alpha -= 0.05;
-        else if(x < previousX)
-            alpha += 0.05;
+        if(x > preX)
+            alpha -= 0.075;
+        else if(x < preX)
+            alpha += 0.075;
 
-        if(y > previousY)
-            theta += 0.05;
-        else if(y < previousY)
-            theta -= 0.05;
+        if(y > preY)
+            theta += 0.075;
+        else if(y < preY)
+            theta -= 0.075;
 
         if(theta > 2 * PI)
             theta = theta - 2 * PI;
@@ -444,30 +445,36 @@ void mouseMoved(int x, int y)
         else if(alpha < 0.0)
             alpha = 2 * PI - alpha;
 
-        firstClick = true;
+        isStart = true;
 
         glutPostRedisplay();
     }
 }
 
+void resizeWindow(GLsizei w, GLsizei h)
+{
+    if (h == 0) h = 1;
+
+    glViewport(0, 0, w, h);
+    aspect = (GLfloat)w / (GLfloat)h;
+    updateCameraPosition();
+}
+
 int main(int argc , char** argv)
 {
     glutInit(&argc, argv);
-    
-    xRotation = &XAxis;
-    yRotation = &ZAxis;
-    zRotation = &ZAxis;
-    
+
+    // 윈도우 세팅
     int screenWidth  = glutGet(GLUT_SCREEN_WIDTH);
     int screenHeight = glutGet(GLUT_SCREEN_HEIGHT);
     int x = (screenWidth - WINDOW_WIDTH) / 2;
     int y = (screenHeight - WINDOW_HEIGHT) / 2;
-    
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     glutInitWindowPosition(x, y);
     glutCreateWindow("LINE Friends BROWN");
     
+    // 콜백 등록
     glutDisplayFunc(renderBrown);
     glutKeyboardFunc(keyPressed);
     glutMotionFunc(mouseMoved);
