@@ -1,2 +1,12 @@
-# 3D-Human-Modeling
-3D Human Modeling using OpenGL at Mac OS
+# 3D Human 모델링
+
+> 숭실대학교 4학년 컴퓨터그래픽스 과제인 **3D Human 모델링** 레퍼지토리입니다.  
+> **OpenGL**을 활용해 사람의 형상을 한 캐릭터를 모든 방향에서 관찰할 수 있고  
+> 관찰자의 위치를 변경할 수 있습니다.(줌 인/아웃)
+
+### 결과물
+
+<img src="https://i.imgur.com/21GIJq4.gif" width="500px"/>
+
+- LINE 프렌즈의 브라운을 참고하여 모델링 했습니다.
+- 굉장히 귀여븟ㅂ니다..
